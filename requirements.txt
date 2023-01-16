@@ -1,0 +1,4 @@
+# pip requirements for pdfannots-app
+# Use as: pip3 install -r requirements.txt
+
+pdfannots == 0.3
