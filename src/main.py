@@ -3,7 +3,7 @@ import subprocess
 from flet import Column, ElevatedButton, icons, FilePicker, Page, Ref, FilePickerResultEvent, Row, \
     app, Container, padding, border_radius, \
     CrossAxisAlignment, ScrollMode, RadioGroup, Radio, Markdown, \
-    MarkdownExtensionSet
+    MarkdownExtensionSet, AlertDialog, Text, TextButton, TextField, MainAxisAlignment
 
 
 def main(page: Page):
@@ -23,8 +23,38 @@ def main(page: Page):
         page.window_height = 600
         page.update()
 
+    path_export = Ref[TextField]()
+
+    def save_markdown(e):
+        with open(path_export.current.value, 'w') as markdown_file:
+            markdown_file.write(preview.current.value)
+        dlg_modal.open = False
+        page.update()
+
+    def close_modal(e):
+        dlg_modal.open = False
+        page.update()
+
+    dlg_modal = AlertDialog(
+        modal=True,
+        title=Text("Exporting annotations"),
+        content=Column([
+            Text("Do you want to save exported PDF annotations as markdown?"),
+            TextField(ref=path_export)]
+        ),
+        actions=[
+            TextButton("Save", on_click=save_markdown),
+            TextButton("Close", on_click=close_modal)
+        ],
+        actions_alignment=MainAxisAlignment.END,
+    )
+
     def export_markdown(e):
-        pass
+        path_export.current.value = radio_group.value.replace(".pdf", ".md")
+        path_export.current.label = "Path Markdown File"
+        page.dialog = dlg_modal
+        dlg_modal.open = True
+        page.update()
 
     preview_button = Ref[ElevatedButton]()
     export_button = Ref[ElevatedButton]()
