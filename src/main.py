@@ -4,6 +4,7 @@ from flet import Column, ElevatedButton, icons, FilePicker, Page, Ref, FilePicke
     app, Container, padding, border_radius, \
     CrossAxisAlignment, ScrollMode, RadioGroup, Radio, Markdown, \
     MarkdownExtensionSet, AlertDialog, Text, TextButton, TextField, MainAxisAlignment
+from pdfannots.cli import main_igor
 
 
 def main(page: Page):
@@ -15,8 +16,9 @@ def main(page: Page):
     page.window_min_height = 210
 
     def request_preview(e):
-        markdown = subprocess.run(["pdfannots", radio_group.value], capture_output=True)
-        preview.current.value = str(markdown.stdout, 'UTF-8')
+        # markdown = subprocess.run(["pdfannots", radio_group.value], capture_output=True)
+        # preview.current.value = str(markdown.stdout, 'UTF-8')
+        preview.current.value = main_igor(radio_group.value)
         markdown_pane.width = 600
         markdown_pane.visible = True
         page.window_width = 1100

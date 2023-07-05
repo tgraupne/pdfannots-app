@@ -1,5 +1,5 @@
 # pip requirements for pdfannots-app
 # Use as: pip3 install -r requirements.txt
-
-pdfannots == 0.3
+# pdfannots == 0.3
 flet~=0.3.2
+pdfminer.six == 20221105
